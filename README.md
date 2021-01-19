@@ -1,1 +1,1 @@
-# eventshuffle
+# Eventshuffle backend API
