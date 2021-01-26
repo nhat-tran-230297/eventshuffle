@@ -24,12 +24,26 @@ def configure_database(app):
 
         # from app.models import Events, People, Dates
 
-        # for i in range(100000):
-        #     event = Events(name="Jack's party")
+        # for i in range(1, 50000):
+        #     event = Events(name=f"Party {i}")
+        #     if (i % 2 == 0):
+        #         for j in range(1, 10):
+        #             date = Dates(date_format=f'2020-01-0{str(j)}')
+        #             for k in range(1, j):
+        #                 p = People(name=f"Jack {k}")
+        #                 date.people.append(p)
 
-        #     if (i % 3) == 0:
-        #         person = People()
+        #             event.dates.append(date)
+        #     else:
+        #         for j in range(1, 2):
+        #             date = Dates(date_format=f'2020-12-0{str(j)}')
+        #             for k in range(1, 4):
+        #                 p = People(name=f"Jack {k}")
+        #                 date.people.append(p)
 
+        #             event.dates.append(date)
+
+        #     print(i)
         #     db.session.add(event)
 
         # db.session.commit()

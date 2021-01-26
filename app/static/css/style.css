@@ -14,7 +14,7 @@ h1 {
 
 
 .container {
-    width: 60%;
+    width: 50%;
     margin-bottom: 10rem;
 }
 
@@ -28,6 +28,11 @@ h1 {
     display: flex;
     align-items: center;
     min-width: 100px;
+    background-color: #DCDCDC;
+}
+
+.card-body {
+    background-color: #f8f9fa;
 }
 
 .methods {

@@ -72,6 +72,22 @@ def get_all_events():
 
 
     events = Events.query.all()
+    num_events = len(events)
+
+    # when query length exceeds 100, return part of the query to prevent long loading 
+    if num_events > 100:
+        events_json = []
+        for i in range(5):           
+            events_json.append({"id": events[i].id, "name": events[i].name})
+        
+        events_json.append({"...": "..."})
+
+        for i in range(num_events-20, num_events):
+            events_json.append({"id": events[i].id, "name": events[i].name})     
+                        
+
+        return jsonify({"events": events_json}), 200
+
     events_json = [
                     {
                         "id": event.id, 
