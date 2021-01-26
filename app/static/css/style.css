@@ -100,10 +100,12 @@ textarea {
     background-color: #d3d3d3;
 }
 
+
 /* send button */
 .send {
     display: flex;
 }
+
 
 .send-button {
     margin-left: auto;
