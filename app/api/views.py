@@ -11,6 +11,8 @@ def get_all_events():
     """ List all events """
 
     events = Events.query.all()
+
+    # response body
     events_json = [
                     {
                         "id": event.id, 
@@ -22,7 +24,7 @@ def get_all_events():
 
 
 
-@blueprint.route('/', methods=["POST"])
+@blueprint.route('', methods=["POST"])
 def create_event():
     """ Create an event """
 
@@ -62,13 +64,13 @@ def create_event():
 def show_event(id):
     """ Show an event """
 
-
     event = Events.query.get(id)
 
     # requested event not exist
     if not event:
         return jsonify({"error": f"Event {id} does not exist"})
 
+    # response body
     event_json = {
         "id": event.id,
         "name": event.name,
@@ -81,7 +83,6 @@ def show_event(id):
                     for date in event.dates
                 ]
     }
-
     return jsonify(event_json)
 
 
@@ -89,7 +90,6 @@ def show_event(id):
 def add_vote(id):
     """ Add votes to an event """
 
- 
     event = Events.query.get(id)
 
     # requested event not exist
@@ -117,9 +117,12 @@ def add_vote(id):
     # use hash map (key: date, value: index of date) to reduce time complexity
     date_index_map = {date.date_format: index for index, date in enumerate(event.dates)}
     for vote in votes:
+
+        # validate the datetime format of input
         if not validate_datetime(vote):
             return jsonify({"error": f"Invalid date '{vote}'. Date format should be yyyy-mm-dd"})
 
+        # validate whether user votes for date that exists in the event
         index = date_index_map.get(vote)
         if index is None:
             return jsonify({"error": f"date {vote} does not exist"})
@@ -129,7 +132,7 @@ def add_vote(id):
 
     db.session.commit()
 
-
+    # response body
     event_json = {
         "id": event.id,
         "name": event.name,
@@ -151,12 +154,17 @@ def show_results(id):
     """ Show the results of an event """
 
     event = Events.query.get(id)
+
+    # requested event not exist
     if not event:
         return jsonify({"error": f"Event {id} does not exist"})
     
+    # get the most suitable date
+    # if there are more than 1 suitable dates, display them all
     maxNumPeople = max([len(date.people) for date in event.dates])
     suitableDates = [date for date in event.dates if len(date.people) == maxNumPeople]
 
+    # reponse body
     results_json = {
         "id": id,
         "name": event.name,

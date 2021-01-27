@@ -1,3 +1,4 @@
+// event for toggle between collapse and expand each request cards
 function collapseAndExpand(requestQuery){
     document.querySelector(`${requestQuery} .header`).onclick = function(){
         document.querySelectorAll(`${requestQuery} .collapse-expand`).forEach(function(collapseExpand){
@@ -13,6 +14,9 @@ function collapseAndExpand(requestQuery){
         return false;
     }
 }
+
+
+/* The next 5 functions receives user inputs and executes AJAX call to get API for each requests */
 
 function listAllEvents(formQuery){
     // when click at the "Get API" button
@@ -80,10 +84,6 @@ function createAnEvent(formQuery){
 }
 
 function showAnEvent(formQuery){
-    
-    
-    
-
     // when click at the "Get API" button
     document.querySelector(`${formQuery} .get-api-button`).onclick = function(){
         this.form.onsubmit = () => {
@@ -196,29 +196,29 @@ function showResultsOfEvent(formQuery){
 
 };
 
-
+/* WHEN PAGE FINISHES LOADING */
 document.addEventListener('DOMContentLoaded', (event) => {    
     event.preventDefault();
 
-    const requestQueryList = ['#list-all-events', '#create-an-event', '#show-an-event', '#add-votes-to-event', '#show-results-of-event'];
-
     // placeholder for textarea 
     document.querySelector('#create-an-event textarea').placeholder = JSON.stringify(JSON.parse('{"name": "Jake\'s secret party","dates": ["2014-01-01", "2014-01-05", "2014-01-12"]}'), undefined, 4);
-
     document.querySelector('#add-votes-to-event textarea').placeholder = JSON.stringify(JSON.parse('{"name": "Dick", "votes": ["2014-01-01", "2014-01-05"]}'), undefined, 4);
 
 
     // event for collapse/expand of all requests
-    requestQueryList.forEach((requestQuery) => {
-        collapseAndExpand(requestQuery);
-    });
+    collapseAndExpand('#list-all-events');
+    collapseAndExpand('#create-an-event');
+    collapseAndExpand('#show-an-event');
+    collapseAndExpand('#add-votes-to-event');
+    collapseAndExpand('#show-results-of-event');
+    
 
-    // ajax call to send API
-    listAllEvents(formQuery='#list-all-events');
-    createAnEvent(formQuery='#create-an-event')
-    showAnEvent(formQuery='#show-an-event');
-    addVotesToEvent(formQuery='#add-votes-to-event');
-    showResultsOfEvent(formQuery='#show-results-of-event');
+    // call to send API (either ajax call or API in new tab)
+    listAllEvents('#list-all-events');
+    createAnEvent('#create-an-event')
+    showAnEvent('#show-an-event');
+    addVotesToEvent('#add-votes-to-event');
+    showResultsOfEvent('#show-results-of-event');
 })
 
 

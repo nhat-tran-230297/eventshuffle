@@ -11,6 +11,11 @@ from app.utils import validate_datetime, validate_duplicate
 # default page
 @blueprint.route('/')
 def default_page():
+    """
+    Displays UI for all requests
+    """
+
+    # used for easily rendering index.html
     requests = [
         # List all events 
         {
@@ -66,6 +71,7 @@ def default_page():
     return render_template('index.html', requests=requests)
 
 
+
 @blueprint.route('/event/list', methods=["GET"])
 def get_all_events():
     """ List all events """
@@ -83,11 +89,12 @@ def get_all_events():
         events_json.append({"...": "..."})
 
         for i in range(num_events-20, num_events):
-            events_json.append({"id": events[i].id, "name": events[i].name})     
-                        
+            events_json.append({"id": events[i].id, "name": events[i].name})                           
 
         return jsonify({"events": events_json}), 200
 
+
+    # otherwise, display all events
     events_json = [
                     {
                         "id": event.id, 
@@ -105,16 +112,18 @@ def create_event():
     Create an event 
     """
 
-    # get request input
+    # retrieves request input via AJAX call
     responseBody = request.form.get('responseBody')
+
+    # handle error when user enters invalid JSON format
     try:
         responseBodyJSON = json.loads(responseBody)
     except json.decoder.JSONDecodeError:
         return jsonify({"error": "invalid input"}), 404
 
+    # get valid request input 
     name = responseBodyJSON.get('name')
     dates = responseBodyJSON.get('dates')
-
 
     # validate request input
     if not name:
@@ -125,6 +134,7 @@ def create_event():
 
     if not validate_duplicate(dates):
         return jsonify({"error": "find duplicate dates"}), 404
+
 
     # interact with database
     event = Events(name=name)
@@ -143,6 +153,7 @@ def create_event():
     return jsonify({"id": event.id}), 200
 
 
+
 @blueprint.route('/event/<int:id>', methods=["GET"])
 def show_event(id):
     """ 
@@ -151,10 +162,11 @@ def show_event(id):
 
     event = Events.query.get(id)
 
-    # requested event not exist
+    # request event not exist
     if not event:
         return jsonify({"error": f"Event {id} does not exist"}), 404
 
+    # response body
     event_json = {
         "id": event.id,
         "name": event.name,
@@ -184,14 +196,16 @@ def add_vote(id):
     if not event:
         return jsonify({"error": f"Event {id} does not exist"}), 404
 
-    # get request input
+    # retrieves request input via AJAX call
     responseBody = request.form.get('responseBody')
 
+    # handle error when user enters invalid JSON format
     try:
         responseBodyJSON = json.loads(responseBody)
     except json.decoder.JSONDecodeError:
         return jsonify({"error": "invalid input"}), 404
 
+    # get valid request input
     name = responseBodyJSON.get('name')
     votes = responseBodyJSON.get('votes')
 
@@ -212,18 +226,22 @@ def add_vote(id):
     # use hash map (key: date, value: index of date) to reduce time complexity
     date_index_map = {date.date_format: index for index, date in enumerate(event.dates)}
     for vote in votes:
+
+        # validate the datetime format of input
         if not validate_datetime(vote):
             return jsonify({"error": f"Invalid date '{vote}'. Date format should be yyyy-mm-dd"}), 404
 
+        # validate whether user votes for date that exists in the event
         index = date_index_map.get(vote)
         if index is None:
-            return jsonify({"error": f"date {vote} does not exist"})
+            return jsonify({"error": f"date {vote} does not exist"}), 404
 
         date = event.dates[index]       
         date.people.append(person)
 
     db.session.commit()
 
+    # response body
     event_json = {
         "id": event.id,
         "name": event.name,
@@ -248,12 +266,17 @@ def show_results(id):
     """
 
     event = Events.query.get(id)
+
+    # requested event not exist
     if not event:
         return jsonify({"error": f"Event {id} does not exist"})
     
+    # get the most suitable date
+    # if there are more than 1 suitable dates, display them all
     maxNumPeople = max([len(date.people) for date in event.dates])
     suitableDates = [date for date in event.dates if len(date.people) == maxNumPeople]
 
+    # response body
     results_json = {
         "id": id,
         "name": event.name,

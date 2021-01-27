@@ -10,6 +10,8 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 def register(app): 
+    """ register for apps """
+
     for module_name in MODULES_BLUEPRINTS:
         module = import_module(f'app.{module_name}.views')
         app.register_blueprint(module.blueprint)
