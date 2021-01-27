@@ -1,22 +1,81 @@
 body {
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 16px;
 }
 
 
 h1 {
     margin-top: 3rem;
     margin-bottom: 5rem;
-    font-size: 50px;
     text-align: center;
     font-weight: bolder;
 }
 
+@media screen and (max-width: 400px) {
+    body {
+        font-size: 8px;
+    }
 
-.container {
-    width: 50%;
-    margin-bottom: 10rem;
+    h1 {
+        font-size: 20px;
+    }
+
+    .container {
+        width: 100%;
+        margin-bottom: 10rem;
+    }
+
+    .methods, .send-button, .get-api-button {
+        font-size: 8px;
+    }
+
+    .methods, .send-button, .get-api-button {
+        width: 50px;
+        height: 24px;      
+    }
+
+    .send-button {
+        margin-right: 5%;
+    }
+    
+    .get-api-button {
+        margin-right: 10px;   
+    }
+    
 }
+
+
+@media screen and (min-width: 1024px) {
+    body {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 50px;
+    }
+
+    .container {
+        width: 50%;
+        margin-bottom: 10rem;
+    }
+
+    textarea {
+        font-size: 12px;
+    }
+    .response-body {
+        font-size: 14px;;
+    }
+
+    .methods {
+        width: 90px;
+        font-size: 16px;
+    }
+
+    .send-button, .get-api-button {
+        width: 80px;
+    }
+
+}
+
 
 /* request endpoints */
 .request {
@@ -36,20 +95,17 @@ h1 {
 }
 
 .methods {
-    margin-right: 2rem;
-    width: 90px;
+    margin-right: 3%;
     font-weight: bolder;
 }
 
 .endpoints {
-    font-size: 18px;
     font-weight: 600;
 }
 
 .title{
     margin-left: auto;
-    font-size: 16px;
-    margin-right: 3rem;
+    margin-right: 5%;
 }
 
 /* request header */
@@ -58,7 +114,7 @@ h1 {
 }
 
 .post{
-    background-color: #90EE90;
+    background-color: #49cc90;
 }
 
 .get{
@@ -71,7 +127,6 @@ h1 {
 
 /* request body */
 .card-header .card-text {
-    font-size: 16px;
     font-weight: 600;
 }
 
@@ -82,7 +137,6 @@ h1 {
 /* form */
 textarea {
     width: 95%;
-    font-size: 12px;
     height: 200px;
 }
 
@@ -90,7 +144,6 @@ textarea {
 /* response body */
 .response-body {
     width: 95%;
-    font-size: 14px;
     min-height: 200px;
     max-height: 400px;
     overflow: auto;
@@ -103,9 +156,16 @@ textarea {
 /* send button */
 .send {
     display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    
 }
 
 .send-button {
-    margin-left: auto;
     margin-right: 5%;
+    
+}
+
+.get-api-button {
+    margin-right: 10px; 
 }
