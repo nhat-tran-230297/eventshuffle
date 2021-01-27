@@ -33,7 +33,7 @@ function listAllEvents(formQuery){
         this.form.onsubmit = () => {
             // initialize new request
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', '/event/list');
+            xhr.open('GET', '/api/v1/event/list');
     
             // callback function for when requests completes
             xhr.onload = () => {
@@ -61,7 +61,7 @@ function createAnEvent(formQuery){
 
         // initialize new request
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/event');
+        xhr.open('POST', '/api/v1/event');
 
         xhr.onload = () => {
             // display status code
@@ -103,7 +103,7 @@ function showAnEvent(formQuery){
 
             // initialize new request
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', `/event/${eventID}`);
+            xhr.open('GET', `/api/v1/event/${eventID}`);
 
             xhr.onload = () => {
                 // display status code
@@ -132,7 +132,7 @@ function addVotesToEvent(formQuery){
 
         // initialize new request
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', `/event/${eventID}/vote`);
+        xhr.open('POST', `/api/v1/event/${eventID}/vote`);
 
         xhr.onload = () => {
             // display status code
@@ -175,7 +175,7 @@ function showResultsOfEvent(formQuery){
 
             // initialize new request
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', `event/${eventID}/results`);
+            xhr.open('GET', `/api/v1/event/${eventID}/results`);
 
             xhr.onload = () => {
                 // display status code
@@ -203,6 +203,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // placeholder for textarea 
     document.querySelector('#create-an-event textarea').placeholder = JSON.stringify(JSON.parse('{"name": "Jake\'s secret party","dates": ["2014-01-01", "2014-01-05", "2014-01-12"]}'), undefined, 4);
     document.querySelector('#add-votes-to-event textarea').placeholder = JSON.stringify(JSON.parse('{"name": "Dick", "votes": ["2014-01-01", "2014-01-05"]}'), undefined, 4);
+
+
+    // press "tab" to display placeholder
+    document.querySelector('#create-an-event textarea').onkeydown = function(e){
+        if (e.keyCode === 9){
+            e.preventDefault();
+            this.textContent = JSON.stringify(JSON.parse('{"name": "Jake\'s secret party","dates": ["2014-01-01", "2014-01-05", "2014-01-12"]}'), undefined, 4);
+        }
+
+    }
+
+    document.querySelector('#add-votes-to-event textarea').onkeydown = function(e){
+        if (e.keyCode === 9){
+            e.preventDefault();
+            this.textContent = JSON.stringify(JSON.parse('{"name": "Dick", "votes": ["2014-01-01", "2014-01-05"]}'), undefined, 4);
+        }
+
+    }
 
 
     // event for collapse/expand of all requests

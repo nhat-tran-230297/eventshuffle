@@ -72,7 +72,7 @@ def default_page():
 
 
 
-@blueprint.route('/event/list', methods=["GET"])
+@blueprint.route('/api/v1/event/list', methods=["GET"])
 def get_all_events():
     """ List all events """
 
@@ -106,7 +106,7 @@ def get_all_events():
 
 
 
-@blueprint.route('/event', methods=["POST"])
+@blueprint.route('/api/v1/event', methods=["POST"])
 def create_event():
     """ 
     Create an event 
@@ -154,7 +154,7 @@ def create_event():
 
 
 
-@blueprint.route('/event/<int:id>', methods=["GET"])
+@blueprint.route('/api/v1/event/<int:id>', methods=["GET"])
 def show_event(id):
     """ 
     Show an event 
@@ -184,7 +184,7 @@ def show_event(id):
 
 
 
-@blueprint.route('/event/<int:id>/vote', methods=["POST"])
+@blueprint.route('/api/v1/event/<int:id>/vote', methods=["POST"])
 def add_vote(id):
     """ 
     Add votes to an event 
@@ -259,7 +259,7 @@ def add_vote(id):
 
 
 
-@blueprint.route('/event/<int:id>/results', methods=["GET"])
+@blueprint.route('/api/v1/event/<int:id>/results', methods=["GET"])
 def show_results(id):
     """ 
     Show the results of an event 
@@ -269,7 +269,7 @@ def show_results(id):
 
     # requested event not exist
     if not event:
-        return jsonify({"error": f"Event {id} does not exist"})
+        return jsonify({"error": f"Event {id} does not exist"}), 404
     
     # get the most suitable date
     # if there are more than 1 suitable dates, display them all

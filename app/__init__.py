@@ -4,7 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-MODULES_BLUEPRINTS = ['base', 'api']
+MODULES_BLUEPRINTS = ['base']
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -24,31 +24,6 @@ def configure_database(app):
     def initialize_database():    
         db.create_all()
 
-        # from app.models import Events, People, Dates
-
-        # for i in range(1, 50000):
-        #     event = Events(name=f"Party {i}")
-        #     if (i % 2 == 0):
-        #         for j in range(1, 10):
-        #             date = Dates(date_format=f'2020-01-0{str(j)}')
-        #             for k in range(1, j):
-        #                 p = People(name=f"Jack {k}")
-        #                 date.people.append(p)
-
-        #             event.dates.append(date)
-        #     else:
-        #         for j in range(1, 2):
-        #             date = Dates(date_format=f'2020-12-0{str(j)}')
-        #             for k in range(1, 4):
-        #                 p = People(name=f"Jack {k}")
-        #                 date.people.append(p)
-
-        #             event.dates.append(date)
-
-        #     print(i)
-        #     db.session.add(event)
-
-        # db.session.commit()
 
     @app.teardown_request
     def shutdown_session(exception=None):
