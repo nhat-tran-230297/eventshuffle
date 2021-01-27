@@ -15,26 +15,39 @@ function collapseAndExpand(requestQuery){
 }
 
 function listAllEvents(formQuery){
-    document.querySelector(formQuery).onsubmit = () => {
-        // initialize new request
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', '/event/list');
+    // when click at the "Get API" button
+    document.querySelector(`${formQuery} .get-api-button`).onclick = function(){
+        this.form.onsubmit = () => {
+            open('/api/v1/event/list', '_blank');
 
-        // callback function for when requests completes
-        xhr.onload = () => {
-            // display status code
-            if (xhr.status === 200){
-                document.querySelector(`${formQuery} .status-code`).innerHTML = '200 (Success)'
-            } else {
-                document.querySelector(`${formQuery} .status-code`).innerHTML = `${xhr.status} (Failed)`
-            };
-
-            // modify <pre> tag for pretty json format
-            document.querySelector(`${formQuery} pre`).innerHTML = xhr.responseText;           
+            return false;
         }
-        xhr.send();
-        return false;
     }
+
+    // when click at the "Send" button
+    document.querySelector(`${formQuery} .send-button`).onclick = function(){
+        this.form.onsubmit = () => {
+            // initialize new request
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/event/list');
+    
+            // callback function for when requests completes
+            xhr.onload = () => {
+                // display status code
+                if (xhr.status === 200){
+                    document.querySelector(`${formQuery} .status-code`).innerHTML = '200 (Success)'
+                } else {
+                    document.querySelector(`${formQuery} .status-code`).innerHTML = `${xhr.status} (Failed)`
+                };
+    
+                // modify <pre> tag for pretty json format
+                document.querySelector(`${formQuery} pre`).innerHTML = xhr.responseText;           
+            }
+            xhr.send();
+            return false;
+        }
+    }   
+
 }
 
 function createAnEvent(formQuery){
@@ -67,31 +80,48 @@ function createAnEvent(formQuery){
 }
 
 function showAnEvent(formQuery){
-    document.querySelector(formQuery).onsubmit = () => {
-        // get input id from user
-        const eventID = document.querySelector(`${formQuery} input`).value;
+    
+    
+    
 
+    // when click at the "Get API" button
+    document.querySelector(`${formQuery} .get-api-button`).onclick = function(){
+        this.form.onsubmit = () => {
+            // get input id from user
+            const eventID = document.querySelector(`${formQuery} input`).value;
 
-        // initialize new request
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `/event/${eventID}`);
+            open(`/api/v1/event/${eventID}`, '_blank');
+            return false;
+        }
+    }
 
-        xhr.onload = () => {
-            // display status code
-            if (xhr.status === 200){
-                document.querySelector(`${formQuery} .status-code`).innerHTML = '200 (Success)'
-            } else {
-                document.querySelector(`${formQuery} .status-code`).innerHTML = `${xhr.status} (Failed)`
+    // when click at the "Send" button
+    document.querySelector(`${formQuery} .send-button`).onclick = function(){
+        this.form.onsubmit = () => {
+            // get input id from user
+            const eventID = document.querySelector(`${formQuery} input`).value;
+
+            // initialize new request
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/event/${eventID}`);
+
+            xhr.onload = () => {
+                // display status code
+                if (xhr.status === 200){
+                    document.querySelector(`${formQuery} .status-code`).innerHTML = '200 (Success)'
+                } else {
+                    document.querySelector(`${formQuery} .status-code`).innerHTML = `${xhr.status} (Failed)`
+                };
+
+                // modify <pre> tag for pretty json format
+                document.querySelector(`${formQuery} pre`).innerHTML = xhr.responseText;         
             };
 
-            // modify <pre> tag for pretty json format
-            document.querySelector(`${formQuery} pre`).innerHTML = xhr.responseText;         
-        };
-        console.log(xhr);
-
-        xhr.send();
-        return false
+            xhr.send();
+            return false
+        }
     }
+
 };
 
 function addVotesToEvent(formQuery){
@@ -103,8 +133,6 @@ function addVotesToEvent(formQuery){
         // initialize new request
         const xhr = new XMLHttpRequest();
         xhr.open('POST', `/event/${eventID}/vote`);
-
-        console.log(xhr)
 
         xhr.onload = () => {
             // display status code
@@ -127,29 +155,45 @@ function addVotesToEvent(formQuery){
 };
 
 function showResultsOfEvent(formQuery){
-    document.querySelector(formQuery).onsubmit = () => {
-        // get input id from user
-        const eventID = document.querySelector(`${formQuery} input`).value;
-        
-        // initialize new request
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `event/${eventID}/results`);
+    
+    // when click at the "Get API" button
+    document.querySelector(`${formQuery} .get-api-button`).onclick = function(){
+        this.form.onsubmit = () => {
+            // get input id from user
+            const eventID = document.querySelector(`${formQuery} input`).value;
 
-        xhr.onload = () => {
-            // display status code
-            if (xhr.status === 200){
-                document.querySelector(`${formQuery} .status-code`).innerHTML = '200 (Success)';
-            } else {
-                document.querySelector(`${formQuery} .status-code`).innerHTML = `${xhr.status} (Failed)`
-            };
-
-            // modify <pre> tag for pretty json format
-            document.querySelector(`${formQuery} pre`).innerHTML = xhr.responseText;
+            open(`/api/v1/event/${eventID}/results`, '_blank');
+            return false;
         }
-
-        xhr.send();
-        return false;
     }
+
+    // when click at the "Send" button
+    document.querySelector(`${formQuery} .send-button`).onclick = function(){
+        this.form.onsubmit = () => {
+            // get input id from user
+            const eventID = document.querySelector(`${formQuery} input`).value;
+
+            // initialize new request
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `event/${eventID}/results`);
+
+            xhr.onload = () => {
+                // display status code
+                if (xhr.status === 200){
+                    document.querySelector(`${formQuery} .status-code`).innerHTML = '200 (Success)';
+                } else {
+                    document.querySelector(`${formQuery} .status-code`).innerHTML = `${xhr.status} (Failed)`
+                };
+
+                // modify <pre> tag for pretty json format
+                document.querySelector(`${formQuery} pre`).innerHTML = xhr.responseText;
+            }
+
+            xhr.send();
+            return false;
+        }
+    }
+
 };
 
 

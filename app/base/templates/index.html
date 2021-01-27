@@ -100,7 +100,12 @@
                                 </tbody>
                             </table>
 
-                            <div class="send"><input type="submit" value="Send" class="btn btn-secondary send-button"></div>
+                            <div class="send">
+                                {% if request['method'] == 'get' %}
+                                    <input type="submit" value="Get API" class="btn btn-primary get-api-button">
+                                {% endif %}
+                                <input type="submit" value="Send" class="btn btn-secondary send-button">
+                            </div>
                         </div>
                     </div>
                 </form>
