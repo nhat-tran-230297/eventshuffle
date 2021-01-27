@@ -10,7 +10,8 @@ Eventshuffle backend API is an application to help scheduling events and generat
 
 
 # Introduction
-![](screenshot.png)
+![image](https://user-images.githubusercontent.com/27566386/106016380-15c6ae00-60c8-11eb-9497-f6bb54b63131.png)
+
 # Contents
 
 ```
