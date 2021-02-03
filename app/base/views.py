@@ -273,19 +273,19 @@ def show_results(id):
     
     # get the most suitable date
     # if there are more than 1 suitable dates, display them all
-    maxNumPeople = max([len(date.people) for date in event.dates])
-    suitableDates = [date for date in event.dates if len(date.people) == maxNumPeople]
+    max_num_people = max([len(date.people) for date in event.dates])
+    suitable_dates = [date for date in event.dates if len(date.people) == max_num_people]
 
     # response body
     results_json = {
         "id": id,
         "name": event.name,
-        "suitableDates": [
+        "suitable_datess": [
                             {
-                                "date": suitableDate.date_format,
-                                "people": [p.name for p in suitableDate.people]
+                                "date": suitable_date.date_format,
+                                "people": [p.name for p in suitable_date.people]
                             }
-                            for suitableDate in suitableDates
+                            for suitable_date in suitable_dates
                         ]
     }
 
