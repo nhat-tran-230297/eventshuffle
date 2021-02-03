@@ -1,6 +1,6 @@
 from datetime import datetime
 
-def validate_datetime(date_format):
+def is_date_valid(date_format):
     try:
         date = datetime.strptime(date_format, '%Y-%m-%d')
         if date.strftime('%Y-%m-%d') != date_format:
@@ -12,5 +12,5 @@ def validate_datetime(date_format):
         return False
 
 
-def validate_duplicate(dates):
+def has_dates_duplicate(dates: list) -> bool:
     return len(dates) == len(set(dates))

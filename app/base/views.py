@@ -5,7 +5,7 @@ from flask import render_template, url_for, request, redirect, jsonify
 from app import db
 from app.base import blueprint
 from app.models import Events, Dates, People
-from app.utils import validate_datetime, validate_duplicate
+from app.utils import is_date_valid, has_dates_duplicate
 
 
 # default page
@@ -132,7 +132,7 @@ def create_event():
     if not dates:
         return jsonify({"error": "'dates' missing"}), 404
 
-    if not validate_duplicate(dates):
+    if not has_dates_duplicate(dates):
         return jsonify({"error": "find duplicate dates"}), 404
 
 
@@ -141,7 +141,7 @@ def create_event():
     for date in dates:
 
         # validate the datetime format of input
-        if not validate_datetime(date):
+        if not is_date_valid(date):
             return jsonify({"error": f"Invalid date '{date}'. Date format should be yyyy-mm-dd"}), 404
 
         new_date = Dates(date_format=date)
@@ -216,7 +216,7 @@ def add_vote(id):
     if not votes:
         return jsonify({"error": "'votes' missing"}), 404
 
-    if not validate_duplicate(votes):
+    if not has_dates_duplicate(votes):
         return jsonify({"error": "find duplicate dates"}), 404
 
 
@@ -228,7 +228,7 @@ def add_vote(id):
     for vote in votes:
 
         # validate the datetime format of input
-        if not validate_datetime(vote):
+        if not is_date_valid(vote):
             return jsonify({"error": f"Invalid date '{vote}'. Date format should be yyyy-mm-dd"}), 404
 
         # validate whether user votes for date that exists in the event
