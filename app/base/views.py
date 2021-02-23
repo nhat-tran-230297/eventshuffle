@@ -159,7 +159,6 @@ def show_event(id):
     """ 
     Show an event 
     """
-
     event = Events.query.get(id)
 
     # request event not exist
